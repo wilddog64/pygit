@@ -4,7 +4,7 @@ from sh import git
 import os
 import shutil
 import sys
-import dreambox.utils
+import pygit.utils
 
 def __git(subcmd, **kwargs):
     git_object = None
