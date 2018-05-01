@@ -106,8 +106,8 @@ if __name__ == '__main__':
     print(out)
     print("end testing __git('status', s=True)")
 
-    repo_url = 'git@github.com:dreamboxlearning/chef-environments.git'
-    app_name = 'environments'
+    repo_url = 'https://chengkai@bitbucket.org/wildwildwest64/pygit.git'
+    app_name = 'pygit'
     print("testing clone(%s, %s, _cwd='/tmp' ) % (repo_url, app_name)")
     repo_path = '/tmp/{}'.format(app_name)
     if os.path.exists(repo_path):
@@ -165,7 +165,7 @@ if __name__ == '__main__':
     print('--- end testing rev_parse ---', file=sys.stderr)
     print()
     print('-- test diff_files ---')
-    rc = diff_files(_cwd='/tmp/environments', q=True)
+    rc = diff_files(_cwd='/tmp/{}'.format(app_name), q=True)
     print('is workspace dirty %d' % rc)
     print('-- end test diff_files ---')
     print()
