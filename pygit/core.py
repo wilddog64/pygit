@@ -106,7 +106,7 @@ if __name__ == '__main__':
     print(out)
     print("end testing __git('status', s=True)")
 
-    repo_url = 'https://chengkai@bitbucket.org/wildwildwest64/pygit.git'
+    repo_url = 'git@bitbucket.org:wildwildwest64/pygit.git'
     app_name = 'pygit'
     print("testing clone(%s, %s, _cwd='/tmp' ) % (repo_url, app_name)")
     repo_path = '/tmp/{}'.format(app_name)
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     clone_output = clone(repo_url,
                          app_name,
                          _cwd='/tmp',
-                         recurse_submodules=True)
+                         recurse_submodules=False)
 
     print(clone_output, end='')
     print("end testing clone(%s, %s, _cwd='/tmp' ) % (repo_url, app_name)")
