@@ -248,6 +248,11 @@ http://stackoverflow.com/questions/3232943/update-value-of-a-nested-dictionary-o
 
     return orig_dict
 
+def get_current_execution_path():
+    '''
+This function simply return the current execution path back to a caller
+    '''
+    return os.path.dirname(os.path.realpath(__file__))
 
 if __name__ == '__main__':
     print('testing generate_buzz')
