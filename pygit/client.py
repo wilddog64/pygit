@@ -1,5 +1,5 @@
 from __future__ import print_function
-import git.core as Git
+import pygit.core as Git
 import os
 import shutil
 import sys

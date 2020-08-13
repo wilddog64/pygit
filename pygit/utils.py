@@ -254,6 +254,20 @@ This function simply return the current execution path back to a caller
     '''
     return os.path.dirname(os.path.realpath(__file__))
 
+def add_bool_argument(parser, name, default=False):
+    """
+    Convert string to bool (in argparse context)
+    """
+    def _str_to_bool(s):
+        if s.lower() not in ['true', 'false']:
+            raise ValueError('Need bool; got %r' % s)
+        return {'true': True, 'false': False}
+
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+         '--' + name, nargs='?', default=default, const=True, type=_str_to_bool)
+    group.add_argument('--no-' + name, dest=name, action='store_false')
+
 if __name__ == '__main__':
     print('testing generate_buzz')
     print('=====================')
