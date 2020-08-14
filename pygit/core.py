@@ -13,7 +13,6 @@ def __git(subcmd, **kwargs):
 
     return git_object.bake(**kwargs)
 
-
 def status(**kwargs):
     return __git('status', **kwargs)
 
@@ -98,6 +97,10 @@ def ls_files(*args, **kwargs):
 
     return output
 
+def show_ref(*args, **kwargs):
+    output = __git('show-ref', **kwargs)(*args)
+
+    return output
 
 if __name__ == '__main__':
     print("testing __git('status', s=True)")
@@ -174,3 +177,8 @@ if __name__ == '__main__':
     if output:
         print('return code is %d' % output.exit_code)
         print('found untracked files in current repo %s' % output, file=sys.stderr)
+
+    print('--- test show-ref ---')
+    output = show_ref(dereference=True)
+    if output:
+        print(output)
