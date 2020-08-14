@@ -89,6 +89,7 @@ def create_branch(branch_name=None,
                   repo_path=None,
                   stderr_callback=__output_callback,
                   stdout_callback=__output_callback,
+                  delete_branch_before_create=False,
                   create_and_switch=False,):
     '''
 create_branch function will create a branch in a given repo.  The function
@@ -107,6 +108,13 @@ takes the following parameters,
 * create_and_switch is a boolean flag that tells create_branch once branch created,
   switch to it.  This is set to true by default.
     '''
+    current_branch = get_current_branch_name(repo_path=repo_path)
+    if delete_branch_before_create:
+        if current_branch == branch_name:
+            Git.checkout('master')
+        if branch_exists(branch_name=branch_name, repo_path=repo_path):
+            Git.branch(branch_name, _cwd=repo_path, d=True)
+
     if create_and_switch:
        if not branch_exists(branch_name=branch_name,
                             repo_path=repo_path):
