@@ -1,5 +1,5 @@
 import pygit.client as Git
-from pygit.core import pull, checkout
+from pygit.core import pull, checkout, branch
 import argparse
 from pygit.utils import get_current_execution_path
 from pygit.utils import add_bool_argument
@@ -35,6 +35,8 @@ def git():
             )
     Git.pull(repoPath=repo)
     Git.remove_repo_untrack_files(repo_path=repo)
+    if Git.branch_exists(branch_name=args.branch_name, repo_path=repo):
+        branch(args.branch_name, _cwd=repo, d=True)
     checkout(args.commit, b=args.branch_name,  _cwd=repo)
 
 if __name__ == '__main__':
