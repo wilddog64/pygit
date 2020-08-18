@@ -17,27 +17,34 @@ def git():
     add_bool_argument(optParser, 'removerepo', default=True)
     args = optParser.parse_args()
 
-    print('git url %s' % (args.git_url))
-    print('repo path: %s' % (args.repo_path))
-    print('repo name: %s' % (args.repo_name))
-    print('branch name: %s' %(args.branch_name))
-    print('remove repo? %s' % (args.removerepo))
+    git_url = args.git_url
+    repo_path = args.repo_path
+    repo_name = args.repo_name
+    branch_name = args.branch_name
+    removerepo = args.removerepo
+    commit = args.commit
 
-    repo_url = "%s/%s" % (args.git_url, args.repo_name)
+    print('git url %s' % (git_url))
+    print('repo path: %s' % (repo_path))
+    print('repo name: %s' % (repo_name))
+    print('branch name: %s' %(branch_name))
+    print('remove repo? %s' % (removerepo))
+
+    repo_url = "%s/%s" % (git_url, repo_name)
     print('repo url %s' % (repo_url,))
 
-    repo = "%s/%s" % (args.repo_path, args.repo_name)
+    repo = "%s/%s" % (repo_path, repo_name)
     Git.clone_repo_to_local(
             git_url=repo_url,
-            repo_path=args.repo_path,
-            app_name=args.repo_name,
-            force_remove_repo=args.removerepo
+            repo_path=repo_path,
+            app_name=repo_name,
+            force_remove_repo=removerepo
             )
     Git.pull(repoPath=repo)
     Git.remove_repo_untrack_files(repo_path=repo)
-    if Git.branch_exists(branch_name=args.branch_name, repo_path=repo):
-        branch(args.branch_name, _cwd=repo, d=True)
-    checkout(args.commit, b=args.branch_name,  _cwd=repo)
+    if Git.branch_exists(branch_name=branch_name, repo_path=repo):
+        branch(branch_name, _cwd=repo, D=True)
+    checkout(commit, b=branch_name,  _cwd=repo)
 
 if __name__ == '__main__':
     git()
