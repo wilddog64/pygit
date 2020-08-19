@@ -9,7 +9,7 @@ from setuptools import find_packages
 
 setup(name='pygit',
       version=__import__('pygit').__version__,
-      description='pygit is a thinker wrapper around git to provide a custom git opprations',
+      description='pygit is a thiner wrapper around git to provide a custom git opprations',
       author='Chengkai Liang',
       author_email='chengkai.liang@bigfishgames.com',
       install_requires=['funcy', 'sh'],
@@ -28,5 +28,4 @@ setup(name='pygit',
            "Operating System :: OS Independent",
            'Topic :: System :: Systems Administration',
       ]
-      )
-
+)
