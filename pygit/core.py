@@ -85,7 +85,7 @@ def pull(*args, **kwargs):
 
 def rev_parse(*args, **kwargs):
     output = __git('rev-parse', **kwargs)(*args)
-    return output.exit_code
+    return (output.exit_code, output)
 
 
 def diff_files(**kwargs):
@@ -160,10 +160,10 @@ if __name__ == '__main__':
     print()
     print('--- testing rev_parse ---', file=sys.stderr)
     print('checking branch existenance')
-    return_code = rev_parse('git-client', _cwd='.', quiet=True, verify=True, _ok_code=[0, 1])
+    return_code = (rev_parse('git-client', _cwd='.', quiet=True, verify=True, _ok_code=[0, 1]))[0]
     print('check_branch return code is: %d' % return_code)
     print('checking if a given project is a git repo', file=sys.stderr)
-    return_code = rev_parse(_cwd='/tmp', is_inside_work_tree=True, quiet=True, _ok_code=[0, 128])
+    return_code = (rev_parse(_cwd='/tmp', is_inside_work_tree=True, quiet=True, _ok_code=[0, 128]))[0]
     print('return code for check project is git repo is %d' % return_code)
     print('--- end testing rev_parse ---', file=sys.stderr)
     print()
