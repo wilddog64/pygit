@@ -332,6 +332,9 @@ def getFullCommitHash():
        print('unable to get a full commit hash')
        sys.exit(rc)
 
+def getCommitUrl():
+    return Git.ls_remote('origin', get_url=True)
+
 if __name__ == '__main__':
     repoPath = '/tmp'
     repoName = 'git-testing'
@@ -348,7 +351,7 @@ if __name__ == '__main__':
     clone_repo_to_local(git_url=repoUrl,
                         repo_path=repoPath,
                         app_name=appName,
-                        force_remove_repo=False)
+                        force_remove_repo=True)
     print('end testing clone_repo_to_local', file=sys.stderr)
     Git.checkout('master', _cwd=appPath)
     print()
@@ -375,3 +378,7 @@ if __name__ == '__main__':
     print('test getFullCommitHash')
     print(getFullCommitHash())
     print('end test show getFullCommitHash')
+    print()
+    print('test getCommitUrl')
+    print(getCommitUrl())
+    print('end test getCommitUrl')
