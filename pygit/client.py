@@ -324,6 +324,14 @@ The function takes only one parameter,
     '''
     return Git.diff_files(_cwd=repo, quiet=True, _ok_code=[0, 1])
 
+def getFullCommitHash():
+    (rc, commitHash) = Git.rev_parse('HEAD')
+    if rc == 0:
+        return commitHash
+    else:
+       print('unable to get a full commit hash')
+       sys.exit(rc)
+
 if __name__ == '__main__':
     repoPath = '/tmp'
     repoName = 'git-testing'
@@ -332,7 +340,7 @@ if __name__ == '__main__':
     if project_isa_gitrepo(project_path=os.path.join(repoPath, repoName)):
       print('%s is a valid git repo' % repoName)
 
-    repoUrl = 'git@github.com:dreamboxlearning/chef-environments.git'
+    repoUrl = 'git@bitbucket.org:wildwildwest64/pygit.git'
     appName = 'environments'
     appPath = os.path.join(repoPath, appName)
 
@@ -364,3 +372,6 @@ if __name__ == '__main__':
     push_ref(dry_run=True)
     print('end testing push_ref with -n (dry_run)')
     print()
+    print('test getFullCommitHash')
+    print(getFullCommitHash())
+    print('end test show getFullCommitHash')
