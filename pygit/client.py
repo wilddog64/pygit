@@ -335,6 +335,9 @@ def getFullCommitHash():
 def getCommitUrl():
     return Git.ls_remote('origin', get_url=True)
 
+def getCommitAuthor():
+    return Git.show(getFullCommitHash(), s=True, format='format:%ae')
+
 if __name__ == '__main__':
     repoPath = '/tmp'
     repoName = 'git-testing'
@@ -382,3 +385,6 @@ if __name__ == '__main__':
     print('test getCommitUrl')
     print(getCommitUrl())
     print('end test getCommitUrl')
+    print('test getCommitAuthor')
+    print(getCommitAuthor())
+    print('end test getCommitAuthor')
