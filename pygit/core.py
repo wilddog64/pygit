@@ -105,6 +105,9 @@ def show_ref(*args, **kwargs):
 def ls_remote(*args, **kwargs):
     return __git('ls-remote', **kwargs)(*args)
 
+def show(*args, **kwargs):
+    return __git('show', **kwargs)(*args)
+
 if __name__ == '__main__':
     print("testing __git('status', s=True)")
     g_status_short = __git('status', s=True)
@@ -191,3 +194,7 @@ if __name__ == '__main__':
     output = ls_remote('origin', get_url=True)
     print(output)
     print('--- end test ls-remote')
+    print(' test show')
+    print('--- test git show ---')
+    print(show())
+    print('--- end test git show')
