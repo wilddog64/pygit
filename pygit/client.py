@@ -338,6 +338,26 @@ def getCommitUrl():
 def getCommitAuthor():
     return Git.show(getFullCommitHash(), s=True, format='format:%ae')
 
+def createTag(tagName, commitHash, message='commit by automate process', force=False):
+    output = Git.tag(tagName, a=True, m=message, force=force)
+    if output.exit_code != 0:
+        print('unable to create a tag %s, abort' % (tagName,))
+    else:
+        print('successfully create tag %s for %s' % (tagName, commitHash))
+
+def deleteTag(tagName):
+    return Git.tag(tagName, d=True)
+
+def pushTag(tagName, force=False):
+    return Git.push('origin', tagName, force=force)
+
+def deleteRemoteTag(tagName):
+    return Git.push('origin', tagName, delete=True)
+
+def deleteAllTags(tagName):
+    deleteTag(tagName)
+    deleteRemoteTag(tagName)
+
 if __name__ == '__main__':
     repoPath = '/tmp'
     repoName = 'git-testing'
@@ -388,3 +408,14 @@ if __name__ == '__main__':
     print('test getCommitAuthor')
     print(getCommitAuthor())
     print('end test getCommitAuthor')
+    print()
+    print('testing createTag and deleteTag')
+    commitHash = getFullCommitHash()
+    createTag(tagName='last-built', commitHash=commitHash, force=True)
+    print('end testing createTag and deleteTag')
+    print()
+    print('test pushTag and deleteRemoteTag')
+    pushTag('last-built', force=True)
+    print(deleteTag('last-built'))
+    deleteAllTag('last-built')
+    print('end test pushTag and deleteRemoteTag')

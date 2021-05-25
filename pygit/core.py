@@ -108,6 +108,9 @@ def ls_remote(*args, **kwargs):
 def show(*args, **kwargs):
     return __git('show', **kwargs)(*args)
 
+def tag(*args, **kwargs):
+    return __git('tag', **kwargs)(*args)
+
 if __name__ == '__main__':
     print("testing __git('status', s=True)")
     g_status_short = __git('status', s=True)
