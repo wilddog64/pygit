@@ -25,8 +25,8 @@ def add(edit=None, **kwargs):
     return  __git('add', **kwargs)(edit)
 
 
-def diff(edit='.', **kwargs):
-     return __git('diff', **kwargs)(edit)
+def diff(*args, **kwargs):
+     return __git('diff', **kwargs)(*args)
 
 
 def commit(checkout=None, **kwargs):
