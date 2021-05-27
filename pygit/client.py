@@ -28,8 +28,8 @@ current directory.
 def clone_repo_to_local(git_url=None,
                         repo_path=None,
                         app_name=None,
-                        stderr_callback=__output_callback,
-                        stdout_callback=__output_callback,
+                        stderr_callback=None,
+                        stdout_callback=None,
                         recurse_submodules=False,
                         force_remove_repo=False):
     '''
@@ -87,8 +87,8 @@ Note: if local repo already exist, unless force_remove_repo is set to true, it w
 
 def create_branch(branch_name=None,
                   repo_path=None,
-                  stderr_callback=__output_callback,
-                  stdout_callback=__output_callback,
+                  stderr_callback=None,
+                  stdout_callback=None,
                   delete_branch_before_create=False,
                   create_and_switch=False,):
     '''
@@ -153,8 +153,8 @@ for a given git repo.  The function takes the following parameters,
 
 
 def get_current_branch_name(repo_path='.',
-                            stderr_callback=__output_callback,
-                            stdout_callback=__output_callback,
+                            stderr_callback=None,
+                            stdout_callback=None,
                           ):
     '''
 get_current_branch_name will return the name of currently use branch.  The
@@ -181,8 +181,8 @@ def merge_branch(repo_path='.',
                  from_branch=None,
                  to_branch=None,
                  merge_message='auto-merge from script',
-                 stderr_callback=__output_callback,
-                 stdout_callback=__output_callback):
+                 stderr_callback=None,
+                 stdout_callback=None,):
     '''
 merge_branch function merge branches from A to B.  The function takes the
 following parameters,
@@ -394,7 +394,8 @@ if __name__ == '__main__':
     print('end testing remove_repo_untrack_files with dry_run set to true')
     print()
     print('testing get_current_branch_name')
-    get_current_branch_name()
+    current_branch = get_current_branch_name()
+    print('current branch is %s' % (current_branch,))
     print('end testing get_current_branch_name')
     print()
     print('testing push_ref with -n (dry_run)')
