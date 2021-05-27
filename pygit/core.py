@@ -72,19 +72,24 @@ def clean(**kwargs):
 
 
 def symbolic_ref(*args, **kwargs):
-    return __git('symbolic-ref', **kwargs)(*args)
+    symbolic_ref = __git('symbolic-ref', **kwargs)
+    output = symbolic_ref(*args)
+    return output
 
 
 def push(*args, **kwargs):
-    return __git('push', **kwargs)(*args)
+    push = __git('push', **kwargs)
+    return push(*args)
 
 
 def pull(*args, **kwargs):
-    return __git('pull', **kwargs)(*args)
+    pull = __git(**kwargs)
+    return pull(*args)
 
 
 def rev_parse(*args, **kwargs):
-    output = __git('rev-parse', **kwargs)(*args)
+    revParse = __git('rev-parse', **kwargs)
+    output = revParse(*args)
     return (output.exit_code, output)
 
 
@@ -93,23 +98,28 @@ def diff_files(**kwargs):
     return output.exit_code
 
 def ls_files(*args, **kwargs):
-    output = __git('ls-files', **kwargs)(*args)
+    lsFiles = __git('ls-files', **kwargs)
+    output = lsFiles(*args)
 
     return output
 
 def show_ref(*args, **kwargs):
-    output = __git('show-ref', **kwargs)(*args)
+    showRef = __git('show-ref', **kwargs)
+    output = showRef(*args)
 
     return output
 
 def ls_remote(*args, **kwargs):
-    return __git('ls-remote', **kwargs)(*args)
+    lsRemote = __git('ls-remote', **kwargs)
+    return lsRemote(*args)
 
 def show(*args, **kwargs):
-    return __git('show', **kwargs)(*args)
+    gitShow = __git('show', **kwargs)
+    return gitShow(*args)
 
 def tag(*args, **kwargs):
-    return __git('tag', **kwargs)(*args)
+    gitTag = __git('tag', **kwargs)
+    return gitTag(*args)
 
 if __name__ == '__main__':
     print("testing __git('status', s=True)")
