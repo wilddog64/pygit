@@ -29,7 +29,6 @@ def diff(*args, **kwargs):
     diff = __git('diff', **kwargs)
     return diff(*args)
 
-
 def commit(checkout=None, **kwargs):
 
     if checkout is None:
