@@ -358,8 +358,8 @@ def deleteAllTags(tagName):
     deleteTag(tagName)
     deleteRemoteTag(tagName)
 
-def getChangeList(tagName):
-    for change in Git.diff(tagName, name_only=True, relative=True, no_color=True):
+def getChangeList(tagName, repoPath='.'):
+    for change in Git.diff(tagName, name_only=True, relative=True, no_color=True, _cwd=repoPath):
         yield change
 
 if __name__ == '__main__':
