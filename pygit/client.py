@@ -421,7 +421,7 @@ if __name__ == '__main__':
     print()
     print('test pushTag and deleteRemoteTag')
     pushTag('my-build', force=True)
-    changeList = [change for change in getChangeList('my-build')]
+    changeList = [change for change in getChangeList('last-build')]
     print('change list: %s' % ' '.join(changeList))
     deleteAllTags('my-build')
     print('end test pushTag and deleteRemoteTag')
