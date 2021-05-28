@@ -359,7 +359,8 @@ def deleteAllTags(tagName):
     deleteRemoteTag(tagName)
 
 def getChangeList(tagName):
-    return Git.diff(tagName, name_only=True, relative=True)
+    for change in Git.diff(tagName, name_only=True, relative=True):
+        yield change
 
 if __name__ == '__main__':
     repoPath = '/tmp'
@@ -420,7 +421,7 @@ if __name__ == '__main__':
     print()
     print('test pushTag and deleteRemoteTag')
     pushTag('my-build', force=True)
-    output = getChangeList('my-build')
-    print('change list: %s' % output)
+    changeList = [change for change in getChangeList('my-build')]
+    print('change list: %s' % ' '.join(changeList))
     deleteAllTags('my-build')
     print('end test pushTag and deleteRemoteTag')
