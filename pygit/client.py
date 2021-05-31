@@ -3,6 +3,7 @@ import pygit.core as Git
 import os
 import shutil
 import sys
+import sh
 
 
 def __output_callback(line):
@@ -359,7 +360,7 @@ def deleteAllTags(tagName):
     deleteRemoteTag(tagName)
 
 def getChangeList(tagName, repoPath='.'):
-    for change in Git.diff(tagName, name_only=True, relative=True, no_color=True, _cwd=repoPath):
+    for change in sh.cat(Git.diff(tagName, name_only=True, relative=True, _cwd=repoPath)):
         yield change
 
 if __name__ == '__main__':
@@ -421,7 +422,7 @@ if __name__ == '__main__':
     print()
     print('test pushTag and deleteRemoteTag')
     pushTag('my-build', force=True)
-    changeList = [change for change in getChangeList('last-build')]
+    changeList = [change for change in getChangeList('my-build')]
     print('change list: %s' % ' '.join(changeList))
     deleteAllTags('my-build')
     print('end test pushTag and deleteRemoteTag')
