@@ -33,10 +33,11 @@ def clone_repo_to_local(git_url=None,
                         recurse_submodules=False,
                         force_remove_repo=False):
     '''
-clone_repo_to_local is a function that will clone a remote repo into a local path.
-The function takes the following parameters,
+clone_repo_to_local is a function that will clone a remote repo
+into a local path. The function takes the following parameters,
 
-* git_url is an remote url that has a valid git repo.  This can be either ssh or https
+* git_url is an remote url that has a valid git repo.  This
+can be either ssh or https
 
 * repo_path is a local repo path that clone one stored
 
@@ -48,14 +49,15 @@ The function takes the following parameters,
 * stdout_callback is a function reference that will assign to stderr callback
   (details in sh README.md)  This assigned to __output_callback by default
 
-* recurse_submodules is a boolean flag that tells git clone to recursively bring down all
-  the submodules.  Default value is False
+* recurse_submodules is a boolean flag that tells git clone to recursively
+bring down all the submodules.  Default value is False
 
-* force_remove_repo is a boolean flag that tell clone_repo_to_local to remove existing repo
-  before clone it from remote.  By default, this is set to false
+* force_remove_repo is a boolean flag that tell clone_repo_to_local to
+remove existing repo before clone it from remote.  By default, this is
+set to false
 
-Note: if local repo already exist, unless force_remove_repo is set to true, it will pull
-      from remote repo.
+Note: if local repo already exist, unless force_remove_repo is set to true,
+it will pull from remote repo.
     '''
     app_path = os.path.join(repo_path, app_name)
     print('working on %s' % app_path, file=sys.stderr)
@@ -71,18 +73,17 @@ Note: if local repo already exist, unless force_remove_repo is set to true, it w
         clone_repo = True
     else:
         if get_current_branch_name(repo_path=app_path) != 'master':
-          Git.checkout('master', _cwd=app_path)
+            Git.checkout('master', _cwd=app_path)
         Git.pull(_cwd=app_path)
 
     # we only clone repo if clone_repo flag is set to true
-    if clone_repo: 
+    if clone_repo:
         Git.clone(git_url,
                   app_name,
                   _cwd=repo_path,
                   recurse_submodules=recurse_submodules,
                   _err=stderr_callback,
                   _out=stderr_callback)
-
 
 
 def create_branch(branch_name=None,
@@ -105,8 +106,8 @@ takes the following parameters,
 * stdout_callback is a function reference that will assign to stderr callback
   (details in sh README.md)  This assigned to __output_callback by default
 
-* create_and_switch is a boolean flag that tells create_branch once branch created,
-  switch to it.  This is set to true by default.
+* create_and_switch is a boolean flag that tells create_branch once
+branch created, switch to it.  This is set to true by default.
     '''
     current_branch = get_current_branch_name(repo_path=repo_path)
     if delete_branch_before_create:
@@ -116,35 +117,34 @@ takes the following parameters,
             Git.branch(branch_name, _cwd=repo_path, d=True)
 
     if create_and_switch:
-       if not branch_exists(branch_name=branch_name,
-                            repo_path=repo_path):
-           Git.checkout(branch_name,
-                        _cwd=repo_path,
-                        b=create_and_switch,
-                        _err=stderr_callback,
-                        _out=stdout_callback)
-       elif get_current_branch_name(repo_path=repo_path) != branch_name:
-           print('branch %s already exists, switch to it' % branch_name)
-           Git.checkout(branch_name,
-                        _cwd=repo_path,
-                        _err=stderr_callback,
-                        _out=stdout_callback)
+        if not branch_exists(branch_name=branch_name, repo_path=repo_path):
+            Git.checkout(branch_name,
+                         _cwd=repo_path,
+                         b=create_and_switch,
+                         _err=stderr_callback,
+                         _out=stdout_callback)
+        elif get_current_branch_name(repo_path=repo_path) != branch_name:
+            print('branch %s already exists, switch to it' % branch_name)
+            Git.checkout(branch_name,
+                         _cwd=repo_path,
+                         _err=stderr_callback,
+                         _out=stdout_callback)
     else:
        Git.branch(branch_name,
-                  _cwd=repo_path,
-                  _err=stderr_callback,
-                  _out=stdout_callback)
+                  cwd=repo_path, err=stderr_callback, out=stdout_callback)
 
 
 def remove_repo_untrack_files(repo_path, dry_run=False):
     '''
-remove_repo_untrack_files function will remove all the untrack files and recitories
-for a given git repo.  The function takes the following parameters,
+remove_repo_untrack_files function will remove all the untrack
+files and recitories for a given git repo.
+The function takes the following parameters,
 
 * repo_path is a full path points to a given repo.
 
-* dry_run is a boolean flag to indicate not to take action to remove files but show what
-  is going to happen.  This is set to False by default.
+* dry_run is a boolean flag to indicate not to take action
+  to remove files but show what is going to happen.
+  This is set to False by default.
     '''
     if dry_run:
         return Git.clean(_cwd=repo_path, d=True, f=True, x=True, n=True, _out=__output_callback)
@@ -315,6 +315,7 @@ is actually a git repo or not.  The function takes only one parameter,
 
     return not rc
 
+
 def repo_is_dirty(repo='.'):
     '''
 repo_is_dirty is a function to check if current repo has unstaged changes.
@@ -324,43 +325,55 @@ The function takes only one parameter,
     '''
     return Git.diff_files(_cwd=repo, quiet=True, _ok_code=[0, 1])
 
+
 def getFullCommitHash():
     (rc, commitHash) = Git.rev_parse('HEAD')
     if rc == 0:
         return commitHash
     else:
-       print('unable to get a full commit hash')
-       sys.exit(rc)
+        print('unable to get a full commit hash')
+        sys.exit(rc)
+
 
 def getCommitUrl():
     return Git.ls_remote('origin', get_url=True)
 
+
 def getCommitAuthor():
     return Git.show(getFullCommitHash(), s=True, format='format:%ae')
 
-def createTag(tagName, commitHash, message='commit by automate process', force=False):
+
+def createTag(tagName, commitHash,
+              message='commit by automate process',
+              force=False):
     output = Git.tag(tagName, a=True, m=message, force=force)
     if output.exit_code != 0:
         print('unable to create a tag %s, abort' % (tagName,))
     else:
         print('successfully create tag %s for %s' % (tagName, commitHash))
 
+
 def deleteTag(tagName):
     return Git.tag(tagName, d=True)
+
 
 def pushTag(tagName, force=False):
     return Git.push('origin', tagName, force=force)
 
+
 def deleteRemoteTag(tagName):
     return Git.push('origin', tagName, delete=True)
+
 
 def deleteAllTags(tagName):
     deleteTag(tagName)
     deleteRemoteTag(tagName)
 
+
 def getChangeList(tagName):
     for change in Git.diff(tagName, name_only=True, relative=True):
         yield change
+
 
 if __name__ == '__main__':
     repoPath = '/tmp'
@@ -368,7 +381,7 @@ if __name__ == '__main__':
     initialize_repo(repo_path=repoPath, repo_name=repoName)
     print('checking if %s is actually a git repo', file=sys.stderr)
     if project_isa_gitrepo(project_path=os.path.join(repoPath, repoName)):
-      print('%s is a valid git repo' % repoName)
+        print('%s is a valid git repo' % repoName)
 
     repoUrl = 'git@bitbucket.org:wildwildwest64/pygit.git'
     appName = 'environments'
