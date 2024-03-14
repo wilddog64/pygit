@@ -10,8 +10,8 @@ def __git(subcmd, **kwargs):
     git_object = None
     if hasattr(git, subcmd):
         git_object = getattr(git, subcmd)
+    return git.bake('--no-pager', subcmd, **kwargs)
 
-    return git_object.bake(**kwargs)
 
 def status(**kwargs):
     return __git('status', **kwargs)
