@@ -91,16 +91,19 @@ def pull(*args, **kwargs):
 
 def rev_parse(*args, **kwargs):
     revParse = __git('rev-parse', **kwargs)
-    output = revParse(*args)
+    output = revParse(*args, _return_cmd=True)
     return (output.exit_code, output)
 
 
 def diff_files(**kwargs):
     output = __git('diff-files',**kwargs)()
     return output.exit_code
+    diff = __git('diff-files',**kwargs, _return_cmd=True)
+    output = diff()
+    return output
 
 def ls_files(*args, **kwargs):
-    lsFiles = __git('ls-files', **kwargs)
+    lsFiles = __git('ls-files', **kwargs, _return_cmd=True)
     output = lsFiles(*args)
 
     return output
@@ -132,7 +135,7 @@ if __name__ == '__main__':
 
     repo_url = 'git@bitbucket.org:wildwildwest64/pygit.git'
     app_name = 'pygit'
-    print("testing clone(%s, %s, _cwd='/tmp' ) % (repo_url, app_name)")
+    print("testing clone(%s, %s, _cwd='/tmp') % (repo_url, app_name)")
     repo_path = '/tmp/{}'.format(app_name)
     if os.path.exists(repo_path):
         shutil.rmtree(repo_path)
