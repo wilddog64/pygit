@@ -169,6 +169,14 @@ if __name__ == '__main__':
     print(add_output, end='')
     print("end testing add('.', n=True) -- git add . -n")
     print()
+
+    print('-- test diff_files ---')
+    output = diff_files(_cwd='.'.format(app_name))
+    print(output)
+    # print('is workspace dirty %d' % output.rc)
+    print('-- end test diff_files ---')
+    print()
+
     print("testing diff() -- git diff")
     diff_output = diff()
     print(diff_output, end='')
