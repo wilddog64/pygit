@@ -5,6 +5,7 @@ import os
 import shutil
 import sys
 import pygit.utils
+import sys
 
 def __git(subcmd, **kwargs):
     git_object = None
@@ -26,8 +27,9 @@ def add(edit=None, **kwargs):
 
 
 def diff(*args, **kwargs):
-    diff = __git('diff', **kwargs)
     return diff(*args)
+    _diff = __git('diff', **kwargs)
+    return out
 
 def commit(checkout=None, **kwargs):
 
