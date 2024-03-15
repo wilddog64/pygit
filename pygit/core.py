@@ -188,6 +188,7 @@ if __name__ == '__main__':
         print(commit_output)
     print("end testing commit(None, dry_run=True, n=True, m='testing') -- git commit -n -m 'testing', .")
     print()
+
     print('--- testing rev_parse ---', file=sys.stderr)
     print('checking branch existenance')
     return_code = (rev_parse('git-client', _cwd='.', quiet=True, verify=True, _ok_code=[0, 1]))[0]
@@ -197,6 +198,12 @@ if __name__ == '__main__':
     print('return code for check project is git repo is %d' % return_code)
     print('--- end testing rev_parse ---', file=sys.stderr)
     print()
+
+    print('--- testing ls_files() ---')
+    output = ls_files(_cwd='.', other=True)
+    if output:
+        print('return code is %d' % output.exit_code)
+        print('found untracked files in current repo %s' % output, file=sys.stderr)
 
     print('--- test show-ref ---')
     output = show_ref(dereference=True)
@@ -208,6 +215,7 @@ if __name__ == '__main__':
     output = ls_remote('origin', get_url=True)
     print(output)
     print('--- end test ls-remote')
+
     print(' test show')
     print('--- test git show ---')
     print(show())
