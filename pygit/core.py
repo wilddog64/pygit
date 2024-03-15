@@ -96,8 +96,6 @@ def rev_parse(*args, **kwargs):
 
 
 def diff_files(**kwargs):
-    output = __git('diff-files',**kwargs)()
-    return output.exit_code
     diff = __git('diff-files',**kwargs, _return_cmd=True)
     output = diff()
     return output
